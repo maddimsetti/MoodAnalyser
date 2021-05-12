@@ -18,21 +18,24 @@ public class MoodAnalyserTest {
         Assertions.assertEquals("HAPPY", mood);
     }
     @Test
-    public void givenMessageNull_ShouldReturnHappy() throws Exception {
-        MoodAnalyser moodAnalyser = new MoodAnalyser("");
-        String mood = moodAnalyser.analyseMood();
-        Assertions.assertEquals("HAPPY", mood);
+    public void givenMessageNull_ShouldReturnException() throws Exception {
+        MoodAnalyser moodAnalyser = new MoodAnalyser(null);
+        try {
+            String mood = moodAnalyser.analyseMood();
+            Assertions.assertEquals("", mood);
+        } catch (MoodAnalyserException e) {
+            Assertions.assertEquals(MoodAnalyserException.ExceptionType.ENTERED_NULL, e.type);
+        }
     }
 
     @Test
-    public void givenMessageNull_ShouldReturnException() throws Exception {
-        MoodAnalyser moodAnalyser = new MoodAnalyser(null);
-        String mood = null;
+    public void givenMessageEmpty_ShouldReturnException() throws Exception {
+        MoodAnalyser moodAnalyser = new MoodAnalyser("");
         try {
-            mood = moodAnalyser.analyseMood(null);
+            String mood = moodAnalyser.analyseMood();
             Assertions.assertEquals("Happy",mood);
         } catch (MoodAnalyserException e) {
-            Assertions.assertEquals("Please Enter Proper Message",e.getMessage());
+            Assertions.assertEquals(MoodAnalyserException.ExceptionType.ENTERED_EMPTY,e.type);
         }
 
     }
